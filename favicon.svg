@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Background circle gradient -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#8B4513;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#C07850;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFF5E6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#F5DEB3;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="50" cy="50" r="48" fill="url(#bgGrad)" stroke="#D4AF37" stroke-width="3"/>
+
+  <!-- Decorative pattern (subtle thổ cẩm hint) -->
+  <path d="M 20 10 L 30 10 L 25 15 Z" fill="#C04040" opacity="0.3"/>
+  <path d="M 70 10 L 80 10 L 75 15 Z" fill="#2C3E80" opacity="0.3"/>
+  <path d="M 20 90 L 30 90 L 25 85 Z" fill="#2C3E80" opacity="0.3"/>
+  <path d="M 70 90 L 80 90 L 75 85 Z" fill="#C04040" opacity="0.3"/>
+
+  <!-- Letter "M" - bold, centered -->
+  <text
+    x="50"
+    y="70"
+    font-family="serif"
+    font-size="60"
+    font-weight="bold"
+    text-anchor="middle"
+    fill="url(#textGrad)"
+    stroke="#8B4513"
+    stroke-width="1"
+  >M</text>
+</svg>

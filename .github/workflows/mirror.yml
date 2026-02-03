@@ -1,0 +1,59 @@
+# Mirrors this repo's gh-pages branch to vgm-release's gh-pages.
+# Add secret VGMPAGES_MIRROR_TOKEN (PAT or fine-grained token with repo push) in repo Settings → Secrets.
+name: Mirror gh-pages to vgm-release
+
+on:
+  push:
+    branches: [gh-pages]
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout gh-pages
+        uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+          fetch-depth: 0
+          persist-credentials: false
+
+      - name: Configure git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          # Disable all credential helpers to ensure we use only the token from URL
+          git config --global --unset-all credential.helper || true
+          git config --system --unset-all credential.helper || true
+          git config --local --unset-all credential.helper || true
+          # Clear any cached credentials
+          rm -rf ~/.git-credentials 2>/dev/null || true
+
+      - name: Remove dotfiles and dotdirs (PAT lacks workflow scope; mirror site only)
+        run: |
+          rm -rf src-tauri
+          for f in .[!.]* ..?*; do
+            [ "$f" = ".git" ] && continue
+            [ -e "$f" ] && rm -rf "$f" || true
+          done
+
+      - name: Add CNAME for custom domain
+        run: |
+          echo "kor.54vn.us" > CNAME
+          git add CNAME
+
+      - name: git commit
+        run: |
+          git add -A
+          git diff --staged --quiet || git commit -m "update: vgm-release"
+
+      - name: Push to vgm-release gh-pages
+        env:
+          TARGET_REPO: kor-gospel/vgm-release
+          TARGET_BRANCH: gh-pages
+          GIT_TOKEN: ${{ secrets.VGMPAGES_MIRROR_TOKEN }}
+        run: |
+          # Push using x-access-token format (GitHub's recommended format for PATs)
+          git push "https://x-access-token:${GIT_TOKEN}@github.com/${TARGET_REPO}.git" gh-pages:${TARGET_BRANCH} --force
