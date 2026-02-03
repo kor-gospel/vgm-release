@@ -1,8 +1,0 @@
-## README - https://dist.ipfs.tech/#kubo
-download kubo binaries from this link, extract each binary for each platform to this folder and rename as following
-```
-stream-aarch64-apple-darwin
-stream-x86_64-apple-darwin
-stream-x86_64-pc-windows-msvc.exe
-stream-x86_64-unknown-linux-gnu
-```
